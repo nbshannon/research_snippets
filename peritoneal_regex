@@ -1,0 +1,9 @@
+# import libraries
+import pandas as pd
+import re
+# read in prepared file
+df = pd.read_csv('ct_reports.csv')
+# regex
+peritoneal_regex = r"(?:\. |\n|findings)((?:(?!no |none|without|\. ).|\n)*((?:tumour {1,2}deposit|peritoneal {1,2}carcinomatosis|pmp)|(?: (?:peritone\w*|oment\w*|serosa\w*)\b {1,2}(?:met\w*|disease|depos\w*|nod\w*)\b))(?:(?!\. ).)*)"
+# applying to each line of dataframe column 'text'
+df['call'] = df['text'].apply(lambda x: len(re.findall(peritoneal_regex,x)))
